@@ -68,14 +68,14 @@ namespace TableToJsonlConverter
         /// <summary>
         /// ヘッダー情報
         /// </summary>
-        public Dictionary<int, string> Headers { get; private set; } = new Dictionary<int, string>();
+        public Header Headers { get; private set; } = new Header();
         #endregion
 
         #region 行情報
         /// <summary>
         /// 行情報
         /// </summary>
-        public List<List<KeyValuePair<string, object>>> Rows { get; private set; } = new List<List<KeyValuePair<string, object>>>();
+        public Row Rows { get; private set; } = new Row();
         #endregion
 
         #region JsonLines
@@ -137,8 +137,8 @@ namespace TableToJsonlConverter
         /// <returns>true:各設定値が正常 false:設定値が異常</returns>
         public bool Initialize(string ipath, string opath, int scol = 1, int srow = 1, int chcol = 1, int sheetno = 0, bool headerf = true)
         {
-            this.Headers = new Dictionary<int, string>();
-            this.Rows = new List<List<KeyValuePair<string, object>>>();
+            this.Headers = new Header();
+            this.Rows = new Row();
             this.InputPath = ipath;
             this.OutputPath = opath;
             this.StartCol = scol;
