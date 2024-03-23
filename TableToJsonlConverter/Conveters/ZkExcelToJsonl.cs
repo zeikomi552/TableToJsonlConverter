@@ -66,20 +66,6 @@ namespace TableToJsonlConverter.Conveters
         public bool HeaderF { get; private set; } = true;
         #endregion
 
-        #region ヘッダー情報
-        /// <summary>
-        /// ヘッダー情報
-        /// </summary>
-        public ZkHeaders Headers { get; private set; } = new ZkHeaders();
-        #endregion
-
-        #region 行情報
-        /// <summary>
-        /// 行情報
-        /// </summary>
-        public ZkRows Rows { get; private set; } = new ZkRows();
-        #endregion
-
         #region JsonLines
         /// <summary>
         /// JsonLines
