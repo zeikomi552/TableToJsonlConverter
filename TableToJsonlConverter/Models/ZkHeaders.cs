@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TableToJsonlConverter
+namespace TableToJsonlConverter.Models
 {
     public class ZkHeaders : Dictionary<int, string>
     {

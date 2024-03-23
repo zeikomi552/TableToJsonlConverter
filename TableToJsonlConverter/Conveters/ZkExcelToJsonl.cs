@@ -6,8 +6,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TableToJsonlConverter.Interface;
+using TableToJsonlConverter.Models;
 
-namespace TableToJsonlConverter
+namespace TableToJsonlConverter.Conveters
 {
     /// <summary>
     /// 表形式で表現されるエクセルをJson Lines形式に変換するクラス
@@ -87,9 +89,9 @@ namespace TableToJsonlConverter
             get
             {
                 StringBuilder jsonl = new StringBuilder();
-                for (int i = 0; i < this.Rows.Count; i++)
+                for (int i = 0; i < Rows.Count; i++)
                 {
-                    var row = this.Rows.ElementAt(i);
+                    var row = Rows.ElementAt(i);
                     jsonl.Append("{");
 
                     for (int j = 0; j < row.Count; j++)
@@ -102,7 +104,7 @@ namespace TableToJsonlConverter
                     }
                     jsonl.Append("}");
 
-                    if (i != this.Rows.Count - 1)
+                    if (i != Rows.Count - 1)
                     {
                         jsonl.Append("\n");
                     }
@@ -137,15 +139,15 @@ namespace TableToJsonlConverter
         /// <returns>true:各設定値が正常 false:設定値が異常</returns>
         public bool Initialize(string ipath, string opath, int scol = 1, int srow = 1, int chcol = 1, int sheetno = 0, bool headerf = true)
         {
-            this.Headers = new ZkHeaders();
-            this.Rows = new ZkRows();
-            this.InputPath = ipath;
-            this.OutputPath = opath;
-            this.StartCol = scol;
-            this.StartRow = srow;
-            this.CheckCol = chcol;
-            this.SheetNo = sheetno;
-            this.HeaderF = headerf;
+            Headers = new ZkHeaders();
+            Rows = new ZkRows();
+            InputPath = ipath;
+            OutputPath = opath;
+            StartCol = scol;
+            StartRow = srow;
+            CheckCol = chcol;
+            SheetNo = sheetno;
+            HeaderF = headerf;
 
             // パラメータのチェック
             return CheckParameter();
@@ -162,19 +164,19 @@ namespace TableToJsonlConverter
             bool isok = true;
 
             // 入力ファイルパス
-            if (!File.Exists(this.InputPath))
+            if (!File.Exists(InputPath))
             {
                 isok = false;
             }
 
             // 出力ファイルパス
-            if (string.IsNullOrEmpty(this.OutputPath))
+            if (string.IsNullOrEmpty(OutputPath))
             {
                 isok = false;
             }
 
             // 各種行、列は1異以上が正常で、シート番号は0以上が正常
-            if (this.StartCol <= 0 || this.StartRow <= 0 || this.CheckCol <= 0 || this.SheetNo < 0)
+            if (StartCol <= 0 || StartRow <= 0 || CheckCol <= 0 || SheetNo < 0)
             {
                 isok = false;
             }
@@ -208,11 +210,11 @@ namespace TableToJsonlConverter
         public void Input()
         {
             // 読み込み専用で開く
-            using (FileStream fs = new FileStream(this.InputPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using (FileStream fs = new FileStream(InputPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
                 using (XLWorkbook workbook = new XLWorkbook(fs))
                 {
-                    var ws = workbook.Worksheets.ElementAt(this.SheetNo);
+                    var ws = workbook.Worksheets.ElementAt(SheetNo);
 
                     // ヘッダーのセット処理
                     SetHeader(ws);
@@ -231,13 +233,13 @@ namespace TableToJsonlConverter
         /// <param name="ws">ワークシート</param>
         private void SetHeader(IXLWorksheet ws)
         {
-            int col = this.StartCol;
+            int col = StartCol;
 
-            if (this.HeaderF)
+            if (HeaderF)
             {
                 while (true)
                 {
-                    var val = ws.Cell(this.StartRow, col).CachedValue;
+                    var val = ws.Cell(StartRow, col).CachedValue;
 
                     if (string.IsNullOrEmpty(val.ToString()))
                     {
@@ -245,7 +247,7 @@ namespace TableToJsonlConverter
                     }
                     else
                     {
-                        this.Headers.Add(col, val.ToString());
+                        Headers.Add(col, val.ToString());
                     }
                     col++;
                 }
@@ -254,7 +256,7 @@ namespace TableToJsonlConverter
             {
                 while (true)
                 {
-                    var val = ws.Cell(this.StartRow, col).CachedValue;
+                    var val = ws.Cell(StartRow, col).CachedValue;
 
                     if (string.IsNullOrEmpty(val.ToString()))
                     {
@@ -262,7 +264,7 @@ namespace TableToJsonlConverter
                     }
                     else
                     {
-                        this.Headers.Add(col, "col" + col.ToString());
+                        Headers.Add(col, "col" + col.ToString());
                     }
                     col++;
                 }
@@ -277,17 +279,17 @@ namespace TableToJsonlConverter
         /// <param name="ws">エクセルワークシート</param>
         private void SetRows(IXLWorksheet ws)
         {
-            int col = this.StartCol;
-            int row = this.StartRow;
+            int col = StartCol;
+            int row = StartRow;
 
             // ヘッダが存在するので一行ずらす
-            if (this.HeaderF)
+            if (HeaderF)
                 row++;
 
             while (true)
             {
                 var row_tmp = new List<KeyValuePair<string, object>>();
-                var check_cell = ws.Cell(row, this.CheckCol).CachedValue.ToString();
+                var check_cell = ws.Cell(row, CheckCol).CachedValue.ToString();
 
                 // 対象セルが空白ならば抜ける
                 if (string.IsNullOrEmpty(check_cell))
@@ -296,13 +298,13 @@ namespace TableToJsonlConverter
                 }
 
                 // ヘッダの数だけ回す
-                foreach (var header in this.Headers)
+                foreach (var header in Headers)
                 {
                     var val = ws.Cell(row, header.Key).CachedValue;
                     row_tmp.Add(new KeyValuePair<string, object>(header.Value, val));
                 }
 
-                this.Rows.Add(row_tmp);
+                Rows.Add(row_tmp);
                 row++;
             }
         }
@@ -315,7 +317,7 @@ namespace TableToJsonlConverter
         /// <param name="filepath">ファイルパス</param>
         public void Output()
         {
-            File.WriteAllText(this.OutputPath, this.JsonLines);
+            File.WriteAllText(OutputPath, JsonLines);
         }
         #endregion
     }

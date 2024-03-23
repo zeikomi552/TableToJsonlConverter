@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TableToJsonlConverter
+namespace TableToJsonlConverter.Conveters
 {
     public class ZkJsonlBase
     {
-        public Dictionary<string, string> EscapeStringsDic { get; private set; } 
+        public Dictionary<string, string> EscapeStringsDic { get; private set; }
             = new Dictionary<string, string>()
             {
                 {"\\", "\\\\" },
