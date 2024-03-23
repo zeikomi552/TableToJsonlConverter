@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace TableToJsonlConverter
 {
-    public class Header : Dictionary<int, string>
+    internal interface IZkTableToJsonl
     {
+        void Input();
+        void Output();
+
+        string JsonLines { get; }
     }
 }

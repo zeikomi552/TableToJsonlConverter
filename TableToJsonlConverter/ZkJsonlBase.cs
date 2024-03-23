@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TableToJsonlConverter
 {
-    public class JsonlBase
+    public class ZkJsonlBase
     {
         public Dictionary<string, string> EscapeStringsDic { get; private set; } 
             = new Dictionary<string, string>()

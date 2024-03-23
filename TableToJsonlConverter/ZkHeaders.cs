@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TableToJsonlConverter
 {
-    public class Row : List<List<KeyValuePair<string, object>>>
+    public class ZkHeaders : Dictionary<int, string>
     {
     }
 }

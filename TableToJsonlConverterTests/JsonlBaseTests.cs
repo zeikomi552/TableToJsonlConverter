@@ -14,7 +14,7 @@ namespace TableToJsonlConverter.Tests
         [TestMethod()]
         public void EscapeTextTest()
         {
-            JsonlBase test = new JsonlBase();
+            ZkJsonlBase test = new ZkJsonlBase();
 
             for (char ch = (char)0; ch < (char)255; ch++)
             {

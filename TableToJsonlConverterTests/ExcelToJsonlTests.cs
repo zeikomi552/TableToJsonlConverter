@@ -22,7 +22,7 @@ namespace TableToJsonlConverter.Tests
 
         private string GetTestDir()
         {
-            ExcelToJsonl test = new ExcelToJsonl();
+            ZkExcelToJsonl test = new ZkExcelToJsonl();
             Assembly myAssembly = Assembly.GetEntryAssembly()!;
             string? path = myAssembly.Location;
 
@@ -47,7 +47,7 @@ namespace TableToJsonlConverter.Tests
         [TestMethod()]
         public void InitializeTest()
         {
-            ExcelToJsonl test = new ExcelToJsonl();
+            ZkExcelToJsonl test = new ZkExcelToJsonl();
             string dir = GetTestDir();
 
             string test_path = System.IO.Path.Combine(dir, BaseTestFile);
@@ -76,7 +76,7 @@ namespace TableToJsonlConverter.Tests
         [TestMethod()]
         public void InputTest()
         {
-            ExcelToJsonl test = new ExcelToJsonl();
+            ZkExcelToJsonl test = new ZkExcelToJsonl();
 
             string dir = GetTestDir();
             string infile = Path.Combine(dir, BaseTestFile);
@@ -118,7 +118,7 @@ namespace TableToJsonlConverter.Tests
         [TestMethod()]
         public void OutputTest()
         {
-            ExcelToJsonl test = new ExcelToJsonl();
+            ZkExcelToJsonl test = new ZkExcelToJsonl();
 
             string dir = GetTestDir();
             string infile = Path.Combine(dir, BaseTestFile);

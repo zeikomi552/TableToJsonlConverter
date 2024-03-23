@@ -12,7 +12,7 @@ namespace TableToJsonlConverter
     /// <summary>
     /// 表形式で表現されるエクセルをJson Lines形式に変換するクラス
     /// </summary>
-    public class ExcelToJsonl : JsonlBase, ITableToJsonl
+    public class ZkExcelToJsonl : ZkJsonlBase, IZkTableToJsonl
     {
         #region Properties
         #region 入力ファイルパス(Excel)
@@ -68,14 +68,14 @@ namespace TableToJsonlConverter
         /// <summary>
         /// ヘッダー情報
         /// </summary>
-        public Header Headers { get; private set; } = new Header();
+        public ZkHeaders Headers { get; private set; } = new ZkHeaders();
         #endregion
 
         #region 行情報
         /// <summary>
         /// 行情報
         /// </summary>
-        public Row Rows { get; private set; } = new Row();
+        public ZkRows Rows { get; private set; } = new ZkRows();
         #endregion
 
         #region JsonLines
@@ -117,7 +117,7 @@ namespace TableToJsonlConverter
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public ExcelToJsonl()
+        public ZkExcelToJsonl()
         {
 
         }
@@ -137,8 +137,8 @@ namespace TableToJsonlConverter
         /// <returns>true:各設定値が正常 false:設定値が異常</returns>
         public bool Initialize(string ipath, string opath, int scol = 1, int srow = 1, int chcol = 1, int sheetno = 0, bool headerf = true)
         {
-            this.Headers = new Header();
-            this.Rows = new Row();
+            this.Headers = new ZkHeaders();
+            this.Rows = new ZkRows();
             this.InputPath = ipath;
             this.OutputPath = opath;
             this.StartCol = scol;

@@ -6,11 +6,7 @@ using System.Threading.Tasks;
 
 namespace TableToJsonlConverter
 {
-    internal interface ITableToJsonl
+    public class ZkRows : List<List<KeyValuePair<string, object>>>
     {
-        void Input();
-        void Output();
-
-        string JsonLines { get; }
     }
 }
