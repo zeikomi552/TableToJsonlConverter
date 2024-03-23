@@ -12,8 +12,9 @@ namespace TableToJsonlConverter
     /// <summary>
     /// 表形式で表現されるエクセルをJson Lines形式に変換するクラス
     /// </summary>
-    public class ExcelToJsonl : ITableToJsonl
+    public class ExcelToJsonl : JsonlBase, ITableToJsonl
     {
+        #region Properties
         #region 入力ファイルパス(Excel)
         /// <summary>
         /// 入力ファイルパス(Excel)
@@ -28,26 +29,40 @@ namespace TableToJsonlConverter
         public string OutputPath { get; private set; } = string.Empty;
         #endregion
 
+        #region 開始カラム(1から始まる)
         /// <summary>
         /// 開始カラム(1から始まる)
         /// </summary>
         public int StartCol { get; private set; } = 1;
+        #endregion
+
+        #region 開始行(1から始まる)
         /// <summary>
         /// 開始行(1から始まる)
         /// </summary>
         public int StartRow { get; private set; } = 1;
+        #endregion
+
+        #region チェックするカラム（必ず値が入ることが前提で、入っていないセルを見つけるとそこで行を終了する）
         /// <summary>
         /// チェックするカラム（必ず値が入ることが前提で、入っていないセルを見つけるとそこで行を終了する）
         /// </summary>
         public int CheckCol { get; private set; } = 1;
+        #endregion
+
+        #region 読み込むExcelのシート番号(0から始まる)
         /// <summary>
         /// 読み込むExcelのシート番号(0から始まる)
         /// </summary>
         public int SheetNo { get; private set; } = 0;
+        #endregion
+
+        #region ヘッダーが存在するかどうか(true:ヘッダあり false:ヘッダなし) 
         /// <summary>
         /// ヘッダーが存在するかどうか(true:ヘッダあり false:ヘッダなし) 
         /// </summary>
         public bool HeaderF { get; private set; } = true;
+        #endregion
 
         #region ヘッダー情報
         /// <summary>
@@ -63,6 +78,7 @@ namespace TableToJsonlConverter
         public List<List<KeyValuePair<string, object>>> Rows { get; private set; } = new List<List<KeyValuePair<string, object>>>();
         #endregion
 
+        #region JsonLines
         /// <summary>
         /// JsonLines
         /// </summary>
@@ -71,7 +87,7 @@ namespace TableToJsonlConverter
             get
             {
                 StringBuilder jsonl = new StringBuilder();
-                for (int i = 0; i < this.Rows.Count; i ++)
+                for (int i = 0; i < this.Rows.Count; i++)
                 {
                     var row = this.Rows.ElementAt(i);
                     jsonl.Append("{");
@@ -79,9 +95,9 @@ namespace TableToJsonlConverter
                     for (int j = 0; j < row.Count; j++)
                     {
                         var item = row[j];
-                        jsonl.Append($"\"{item.Key}\": \"{item.Value}\"");
+                        jsonl.Append($"\"{EscapeText(item.Key)}\": \"{EscapeText(item.Value.ToString()!)}\"");
 
-                        if(j != row.Count - 1)
+                        if (j != row.Count - 1)
                             jsonl.Append(",");
                     }
                     jsonl.Append("}");
@@ -94,6 +110,8 @@ namespace TableToJsonlConverter
                 return jsonl.ToString();
             }
         }
+        #endregion
+        #endregion
 
         #region コンストラクタ
         /// <summary>
@@ -182,8 +200,6 @@ namespace TableToJsonlConverter
             }
         }
         #endregion
-
-        
 
         #region 入力処理
         /// <summary>
