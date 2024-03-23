@@ -9,10 +9,10 @@ using DocumentFormat.OpenXml.Vml;
 using Path = System.IO.Path;
 using TableToJsonlConverter.Conveters;
 
-namespace TableToJsonlConverter.Tests
+namespace TableToJsonlConverterTests.Conveters
 {
     [TestClass()]
-    public class ExcelToJsonlTests
+    public class ZkExcelToJsonlTests
     {
         const string BaseTestFile = "test_base.xlsx";
         [TestMethod()]
@@ -33,11 +33,11 @@ namespace TableToJsonlConverter.Tests
                 if (string.IsNullOrEmpty(path))
                     break;
 
-                string test_path = System.IO.Path.Combine(path, "testfile", BaseTestFile);
+                string test_path = Path.Combine(path, "testfile", BaseTestFile);
 
                 if (File.Exists(test_path))
                 {
-                    return System.IO.Path.Combine(path, "testfile");
+                    return Path.Combine(path, "testfile");
                 }
             }
 
@@ -50,7 +50,7 @@ namespace TableToJsonlConverter.Tests
             ZkExcelToJsonl test = new ZkExcelToJsonl();
             string dir = GetTestDir();
 
-            string test_path = System.IO.Path.Combine(dir, BaseTestFile);
+            string test_path = Path.Combine(dir, BaseTestFile);
 
             if (File.Exists(test_path))
             {
@@ -82,11 +82,11 @@ namespace TableToJsonlConverter.Tests
             string infile = Path.Combine(dir, BaseTestFile);
             string outfile = "test.json";
 
-            if( test.Initialize(infile, outfile, 1, 1, 1, 0) == false) { Assert.Fail(); }
+            if (test.Initialize(infile, outfile, 1, 1, 1, 0) == false) { Assert.Fail(); }
 
             test.Input();
 
-            if(test.Rows.Count != 100) { Assert.Fail(); }
+            if (test.Rows.Count != 100) { Assert.Fail(); }
 
             infile = Path.Combine(dir, "test_base_noheader_1_1.xlsx");
             if (test.Initialize(infile, outfile, 1, 1, 1, 0, false) == false) { Assert.Fail(); }

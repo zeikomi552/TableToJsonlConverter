@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# CS8766: 戻り値の型における参照型の NULL 値の許容が、暗黙的に実装されるメンバーと一致しません。おそらく、NULL 値の許容の属性が原因です。
+dotnet_diagnostic.CS8766.severity = none

@@ -6,10 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using TableToJsonlConverter.Conveters;
 
-namespace TableToJsonlConverter.Tests
+namespace TableToJsonlConverterTests.Conveters
 {
     [TestClass()]
-    public class JsonlBaseTests
+    public class ZkJsonlBaseTests
     {
         [TestMethod()]
         public void EscapeTextTest()
@@ -46,7 +46,7 @@ namespace TableToJsonlConverter.Tests
                 { "今日の天気は晴れ", "今日の天気は晴れ"},
             };
 
-            foreach(var testx in test_case)
+            foreach (var testx in test_case)
             {
                 var ansx = test.EscapeText(testx.Key);
 

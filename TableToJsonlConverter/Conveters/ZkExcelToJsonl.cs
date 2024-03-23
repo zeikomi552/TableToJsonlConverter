@@ -24,13 +24,6 @@ namespace TableToJsonlConverter.Conveters
         public string InputPath { get; private set; } = string.Empty;
         #endregion
 
-        #region 出力ファイルパス
-        /// <summary>
-        /// 出力ファイルパス
-        /// </summary>
-        public string OutputPath { get; private set; } = string.Empty;
-        #endregion
-
         #region 開始カラム(1から始まる)
         /// <summary>
         /// 開始カラム(1から始まる)
@@ -64,40 +57,6 @@ namespace TableToJsonlConverter.Conveters
         /// ヘッダーが存在するかどうか(true:ヘッダあり false:ヘッダなし) 
         /// </summary>
         public bool HeaderF { get; private set; } = true;
-        #endregion
-
-        #region JsonLines
-        /// <summary>
-        /// JsonLines
-        /// </summary>
-        public string JsonLines
-        {
-            get
-            {
-                StringBuilder jsonl = new StringBuilder();
-                for (int i = 0; i < Rows.Count; i++)
-                {
-                    var row = Rows.ElementAt(i);
-                    jsonl.Append("{");
-
-                    for (int j = 0; j < row.Count; j++)
-                    {
-                        var item = row[j];
-                        jsonl.Append($"\"{EscapeText(item.Key)}\": \"{EscapeText(item.Value.ToString()!)}\"");
-
-                        if (j != row.Count - 1)
-                            jsonl.Append(",");
-                    }
-                    jsonl.Append("}");
-
-                    if (i != Rows.Count - 1)
-                    {
-                        jsonl.Append("\n");
-                    }
-                }
-                return jsonl.ToString();
-            }
-        }
         #endregion
         #endregion
 
@@ -192,22 +151,30 @@ namespace TableToJsonlConverter.Conveters
         #region 入力処理
         /// <summary>
         /// 入力処理
+        /// 失敗時はthrowを投げます
         /// </summary>
         public void Input()
         {
-            // 読み込み専用で開く
-            using (FileStream fs = new FileStream(InputPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            try
             {
-                using (XLWorkbook workbook = new XLWorkbook(fs))
+                // 読み込み専用で開く
+                using (FileStream fs = new FileStream(InputPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                 {
-                    var ws = workbook.Worksheets.ElementAt(SheetNo);
+                    using (XLWorkbook workbook = new XLWorkbook(fs))
+                    {
+                        var ws = workbook.Worksheets.ElementAt(SheetNo);
 
-                    // ヘッダーのセット処理
-                    SetHeader(ws);
+                        // ヘッダーのセット処理
+                        SetHeader(ws);
 
-                    // ヘッダーのセット処理
-                    SetRows(ws);
+                        // ヘッダーのセット処理
+                        SetRows(ws);
+                    }
                 }
+            }
+            catch
+            {
+                throw;
             }
         }
         #endregion
@@ -293,17 +260,6 @@ namespace TableToJsonlConverter.Conveters
                 Rows.Add(row_tmp);
                 row++;
             }
-        }
-        #endregion
-
-        #region 出力処理
-        /// <summary>
-        /// JsonLines 出力処理
-        /// </summary>
-        /// <param name="filepath">ファイルパス</param>
-        public void Output()
-        {
-            File.WriteAllText(OutputPath, JsonLines);
         }
         #endregion
     }

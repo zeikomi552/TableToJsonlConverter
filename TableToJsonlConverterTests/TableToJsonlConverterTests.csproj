@@ -20,4 +20,8 @@
     <ProjectReference Include="..\TableToJsonlConverter\TableToJsonlConverter.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+
 </Project>
