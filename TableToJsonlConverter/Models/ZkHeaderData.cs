@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace TableToJsonlConverter.Models
 {
-    public class ZkHeaders : List<ZkHeaderData>
+    public class ZkHeaderData
     {
+        public int Col { get; set; }
+        public string ColumnName { get; set; } = string.Empty;
     }
 }

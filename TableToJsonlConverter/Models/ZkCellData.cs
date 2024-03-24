@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TableToJsonlConverter.Models
 {
-    public class ZkData
+    public class ZkCellData
     {
         /// <summary>
         /// カラム(列)番号 1から始まる

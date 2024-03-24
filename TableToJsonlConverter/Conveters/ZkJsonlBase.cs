@@ -32,7 +32,7 @@ namespace TableToJsonlConverter.Conveters
 
                 foreach (var val in row_tmp)
                 {
-                    ret.Add(val.Col, val.Key);
+                    ret.Add( new ZkHeaderData() { Col = val.Col, ColumnName = val.Key});
                 }
                 return ret;
             }

@@ -189,7 +189,7 @@ namespace TableToJsonlConverter.Conveters
                     }
                     else
                     {
-                        headers.Add(col, val.ToString());
+                        headers.Add(new ZkHeaderData() { Col = col, ColumnName = val.ToString()});
                     }
                     col++;
                 }
@@ -206,7 +206,7 @@ namespace TableToJsonlConverter.Conveters
                     }
                     else
                     {
-                        headers.Add(col, "col" + col.ToString());
+                        headers.Add( new ZkHeaderData() { Col = col, ColumnName = "col" + col.ToString() });
                     }
                     col++;
                 }
@@ -245,8 +245,8 @@ namespace TableToJsonlConverter.Conveters
                 // ヘッダの数だけ回す
                 foreach (var header in headers)
                 {
-                    var val = ws.Cell(row, header.Key).CachedValue;
-                    ZkData data = new ZkData() { Col = header.Key, Key = header.Value, Value = val};
+                    var val = ws.Cell(row, header.Col).CachedValue;
+                    ZkCellData data = new ZkCellData() { Col = header.Col, Key = header.ColumnName, Value = val};
                     row_tmp.Add(data);
                 }
 

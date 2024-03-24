@@ -33,7 +33,12 @@ namespace TableToJsonlConverter.Conveters.Tests
             int i = 1;
             foreach (var tmp in header)
             {
-                if (!header[tmp.Key].Contains($"header{i++}"))
+                string column_name = $"header{i++}";
+                var find = (from x in header
+                            where x.ColumnName.Contains(column_name)
+                            select x).Any();
+
+                if (!find)
                 {
                     Assert.Fail();
                 }

@@ -111,7 +111,7 @@ namespace TableToJsonlConverter.Conveters
                         ZkRow row = new ZkRow();
                         foreach (var column in columns)
                         {
-                            var data = new ZkData() { Col = col, Key = column.Key, Value = column.Value};
+                            var data = new ZkCellData() { Col = col, Key = column.Key, Value = column.Value};
                             row.Add(data);
                             col++;
                         }
