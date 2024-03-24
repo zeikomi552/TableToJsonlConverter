@@ -105,12 +105,12 @@ namespace TableToJsonlConverter.Conveters
         /// JsonLines 出力処理
         /// 失敗時はthrowを投げます
         /// </summary>
-        /// <param name="filepath">ファイルパス</param>
-        public virtual void Output()
+        /// <param name="path">ファイルパス</param>
+        public virtual void Write(string path)
         {
             try
             {
-                File.WriteAllText(OutputPath, JsonLines);
+                File.WriteAllText(path, JsonLines);
             }
             catch
             {

@@ -47,11 +47,11 @@ namespace TableToJsonlConverter.Conveters.Tests
 
             if (test.Initialize(infile, outfile, Encoding.UTF8, true) == false) { Assert.Fail(); }
 
-            test.Input();
+            test.Read();
 
             if (test.Rows.Count != 100) { Assert.Fail(); }
 
-            test.Output();
+            test.Write(outfile);
         }
     }
 }

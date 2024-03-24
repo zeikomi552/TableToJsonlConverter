@@ -84,34 +84,34 @@ namespace TableToJsonlConverterTests.Conveters
 
             if (test.Initialize(infile, outfile, 1, 1, 1, 0) == false) { Assert.Fail(); }
 
-            test.Input();
+            test.Read();
 
             if (test.Rows.Count != 100) { Assert.Fail(); }
 
             infile = Path.Combine(dir, "test_base_noheader_1_1.xlsx");
             if (test.Initialize(infile, outfile, 1, 1, 1, 0, false) == false) { Assert.Fail(); }
-            test.Input();
+            test.Read();
             if (test.Rows.Count != 100) { Assert.Fail(); }
 
 
             infile = Path.Combine(dir, "test_base_2_2.xlsx");
             if (test.Initialize(infile, outfile, 2, 2, 2, 0, true) == false) { Assert.Fail(); }
-            test.Input();
+            test.Read();
             if (test.Rows.Count != 100) { Assert.Fail(); }
 
             infile = Path.Combine(dir, "test_base_noheader_2_2.xlsx");
             if (test.Initialize(infile, outfile, 2, 2, 2, 0, false) == false) { Assert.Fail(); }
-            test.Input();
+            test.Read();
             if (test.Rows.Count != 100) { Assert.Fail(); }
 
             infile = Path.Combine(dir, "test_base_2_2_3.xlsx");
             if (test.Initialize(infile, outfile, 2, 2, 3, 0, true) == false) { Assert.Fail(); }
-            test.Input();
+            test.Read();
             if (test.Rows.Count != 10) { Assert.Fail(); }
 
             infile = Path.Combine(dir, "test_base_sheet2.xlsx");
             if (test.Initialize(infile, outfile, 1, 1, 1, 1, true) == false) { Assert.Fail(); }
-            test.Input();
+            test.Read();
             if (test.Rows.Count != 50) { Assert.Fail(); }
         }
 
@@ -126,9 +126,9 @@ namespace TableToJsonlConverterTests.Conveters
 
             if (test.Initialize(infile, outfile, 1, 1, 1, 0) == false) { Assert.Fail(); }
 
-            test.Input();
+            test.Read();
 
-            test.Output();
+            test.Write(outfile);
         }
     }
 }

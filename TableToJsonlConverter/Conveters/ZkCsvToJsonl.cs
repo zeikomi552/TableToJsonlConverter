@@ -84,7 +84,7 @@ namespace TableToJsonlConverter.Conveters
         /// <summary>
         /// 入力処理
         /// </summary>
-        public void Input()
+        public void Read()
         {
             try
             {

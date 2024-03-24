@@ -8,8 +8,8 @@ namespace TableToJsonlConverter.Interface
 {
     internal interface IZkTableToJsonl
     {
-        void Input();
-        void Output();
+        void Read();
+        void Write(string path);
 
         string JsonLines { get; }
     }

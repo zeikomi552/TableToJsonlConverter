@@ -153,7 +153,7 @@ namespace TableToJsonlConverter.Conveters
         /// 入力処理
         /// 失敗時はthrowを投げます
         /// </summary>
-        public void Input()
+        public void Read()
         {
             try
             {
