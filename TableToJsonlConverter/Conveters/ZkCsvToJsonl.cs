@@ -2,6 +2,7 @@
 using CsvHelper;
 using CsvHelper.Configuration;
 using DocumentFormat.OpenXml.Office.CustomUI;
+using DocumentFormat.OpenXml.Spreadsheet;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -106,13 +107,17 @@ namespace TableToJsonlConverter.Conveters
                             return;
 
                         var row_tmp = new List<KeyValuePair<string, object>>();
+
+                        int col = 1;
+                        ZkRow row = new ZkRow();
                         foreach (var column in columns)
                         {
-                            var cell = new KeyValuePair<string, object>(column.Key, column.Value);
-                            row_tmp.Add(cell);
+                            var data = new ZkData() { Col = col, Key = column.Key, Value = column.Value};
+                            row.Add(data);
+                            col++;
                         }
 
-                        this.Rows.Add(row_tmp);
+                        this.Rows.Add(row);
                     }
 
                     var first_row = this.Rows.FirstOrDefault();

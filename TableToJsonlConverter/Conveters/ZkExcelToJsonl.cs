@@ -229,7 +229,7 @@ namespace TableToJsonlConverter.Conveters
 
             while (true)
             {
-                var row_tmp = new List<KeyValuePair<string, object>>();
+                //var row_tmp = new ZkRows();
                 var check_cell = ws.Cell(row, CheckCol).CachedValue.ToString();
 
                 // 対象セルが空白ならば抜ける
@@ -238,11 +238,13 @@ namespace TableToJsonlConverter.Conveters
                     break;
                 }
 
+                var row_tmp = new ZkRow();
                 // ヘッダの数だけ回す
                 foreach (var header in Headers)
                 {
                     var val = ws.Cell(row, header.Key).CachedValue;
-                    row_tmp.Add(new KeyValuePair<string, object>(header.Value, val));
+                    ZkData data = new ZkData() { Col = col, Key = header.Value, Value = val};
+                    row_tmp.Add(data);
                 }
 
                 Rows.Add(row_tmp);

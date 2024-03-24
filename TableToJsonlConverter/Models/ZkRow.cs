@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TableToJsonlConverter.Models
 {
-    public class ZkRows : List<ZkRow>
+    public class ZkRow : List<ZkData>
     {
     }
 }
