@@ -246,7 +246,7 @@ namespace TableToJsonlConverter.Conveters
                 foreach (var header in headers)
                 {
                     var val = ws.Cell(row, header.Key).CachedValue;
-                    ZkData data = new ZkData() { Col = col, Key = header.Value, Value = val};
+                    ZkData data = new ZkData() { Col = header.Key, Key = header.Value, Value = val};
                     row_tmp.Add(data);
                 }
 

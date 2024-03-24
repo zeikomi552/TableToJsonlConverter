@@ -50,7 +50,7 @@ namespace TableToJsonlConverterTests.Conveters.Tests
         /// テスト用のディレクトリファイルが置かれている場所を取得する
         /// </summary>
         /// <returns>テスト用ディレクトリパス</returns>
-        private string GetTestDir()
+        public static string GetTestDir()
         {
             ZkExcelToJsonl test = new ZkExcelToJsonl();
             Assembly myAssembly = Assembly.GetEntryAssembly()!;

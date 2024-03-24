@@ -2,15 +2,44 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using TableToJsonlConverter.Conveters;
+using TableToJsonlConverterTests.Conveters.Tests;
 
-namespace TableToJsonlConverterTests.Conveters
+namespace TableToJsonlConverter.Conveters.Tests
 {
     [TestClass()]
     public class ZkJsonlBaseTests
     {
+        const string BaseTestFile = "test_base.xlsx";
+
+        [TestMethod()]
+        public void GetHeaderTest()
+        {
+            ZkExcelToJsonl test = new ZkExcelToJsonl();
+            string dir = ZkExcelToJsonlTests.GetTestDir();
+
+            string test_path = Path.Combine(dir, BaseTestFile);
+
+            test = new ZkExcelToJsonl(test_path, true, 1, 1, 1, 0);
+            if (!test.PropertyOk) { Assert.Fail(); }
+            test.Read();
+            var header = test.GetHeader(0);
+
+            if (header!.Count != 4) { Assert.Fail(); }
+
+            int i = 1;
+            foreach (var tmp in header)
+            {
+                if (!header[tmp.Key].Contains($"header{i++}"))
+                {
+                    Assert.Fail();
+                }
+            }
+        }
+
         [TestMethod()]
         public void EscapeTextTest()
         {
