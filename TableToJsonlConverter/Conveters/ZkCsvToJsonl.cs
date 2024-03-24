@@ -15,71 +15,71 @@ namespace TableToJsonlConverter.Conveters
 {
     public class ZkCsvToJsonl : ZkJsonlBase, IZkTableToJsonl
     {
-        #region 入力ファイルパス(Excel)
+        #region 入力ファイルパス(Csv)
         /// <summary>
-        /// 入力ファイルパス(Excel)
+        /// 入力ファイルパス(Csv)
         /// </summary>
-        public string InputPath { get; private set; } = string.Empty;
+        public string InputPath { get; set; } = string.Empty;
         #endregion
+
         #region ヘッダーが存在するかどうか(true:ヘッダあり false:ヘッダなし) 
         /// <summary>
         /// ヘッダーが存在するかどうか(true:ヘッダあり false:ヘッダなし) 
         /// </summary>
-        public bool HeaderF { get; private set; } = true;
+        public bool HeaderF { get; set; } = true;
 
         /// <summary>
         /// ファイルのエンコーディング
         /// </summary>
-        public Encoding Encoding { get; private set; } = Encoding.UTF8;
+        public Encoding Encoding { get; set; } = Encoding.UTF8;
         #endregion
-        #region 初期化処理
+
         /// <summary>
-        /// 初期化処理
+        /// コンストラクタ
         /// </summary>
-        /// <param name="ipath">入力ファイルパス(.xlsx)</param>
-        /// <param name="opath">出力ファイルパス(.jsonl)</param>
-        /// <param name="enc">入力ファイルのエンコーディング</param>
-        /// <param name="headerf">true:ヘッダーあり false:ヘッダーなし</param>
-        /// <returns>true:各設定値が正常 false:設定値が異常</returns>
-        public bool Initialize(string ipath, string opath, Encoding enc, bool headerf = true)
+        public ZkCsvToJsonl()
+        {
+
+        }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="inpath">入力ファイルパス</param>
+        /// <param name="enc">エンコーディング</param>
+        /// <param name="headerf">入力ファイルにヘッダーの有無(true:ヘッダ有り false:ヘッダなし)</param>
+        public ZkCsvToJsonl(string ipath, Encoding enc, bool headerf = true)
         {
             Headers = new ZkHeaders();
             Rows = new ZkRows();
             InputPath = ipath;
-            OutputPath = opath;
             this.HeaderF = headerf;
 
             this.Encoding = enc;
-
-            // パラメータのチェック
-            return CheckParameter();
-        }
-        #endregion
+        }       
 
         #region パラメータのチェック処理
         /// <summary>
         /// パラメータのチェック処理
         /// </summary>
         /// <returns>true:パラメータに不整値あり false:OK</returns>
-        private bool CheckParameter()
+        public bool PropertyOk
         {
-            bool isok = true;
-
-            // 入力ファイルパス
-            if (!File.Exists(InputPath))
+            get
             {
-                isok = false;
-            }
+                bool isok = true;
 
-            // 出力ファイルパス
-            if (string.IsNullOrEmpty(OutputPath))
-            {
-                isok = false;
-            }
+                // 入力ファイルパス
+                if (!File.Exists(InputPath))
+                {
+                    isok = false;
+                }
 
-            return isok;
+                return isok;
+            }
         }
         #endregion
+
         #region 入力処理
         /// <summary>
         /// 入力処理
@@ -133,7 +133,5 @@ namespace TableToJsonlConverter.Conveters
             }
         }
         #endregion
-
-
     }
 }

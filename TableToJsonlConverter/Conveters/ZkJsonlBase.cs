@@ -63,7 +63,7 @@ namespace TableToJsonlConverter.Conveters
         /// <summary>
         /// 出力ファイルパス
         /// </summary>
-        public string OutputPath { get; protected set; } = string.Empty;
+        public string OutputPath { get; set; } = string.Empty;
         #endregion
 
         #region JsonLines
@@ -108,9 +108,21 @@ namespace TableToJsonlConverter.Conveters
         /// <param name="path">ファイルパス</param>
         public virtual void Write(string path)
         {
+            this.OutputPath = path;
+            Write();
+        }
+        #endregion
+
+        #region JsonLines 出力処理
+        /// <summary>
+        /// JsonLines 出力処理
+        /// 失敗時はthrowを投げます
+        /// </summary>
+        public virtual void Write()
+        {
             try
             {
-                File.WriteAllText(path, JsonLines);
+                File.WriteAllText(this.OutputPath, JsonLines);
             }
             catch
             {

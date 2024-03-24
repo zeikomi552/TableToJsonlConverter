@@ -1,4 +1,5 @@
 ﻿using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Office2013.Excel;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Wordprocessing;
 using System;
@@ -21,42 +22,42 @@ namespace TableToJsonlConverter.Conveters
         /// <summary>
         /// 入力ファイルパス(Excel)
         /// </summary>
-        public string InputPath { get; private set; } = string.Empty;
+        public string InputPath { get; set; } = string.Empty;
         #endregion
 
         #region 開始カラム(1から始まる)
         /// <summary>
         /// 開始カラム(1から始まる)
         /// </summary>
-        public int StartCol { get; private set; } = 1;
+        public int StartCol { get; set; } = 1;
         #endregion
 
         #region 開始行(1から始まる)
         /// <summary>
         /// 開始行(1から始まる)
         /// </summary>
-        public int StartRow { get; private set; } = 1;
+        public int StartRow { get; set; } = 1;
         #endregion
 
         #region チェックするカラム（必ず値が入ることが前提で、入っていないセルを見つけるとそこで行を終了する）
         /// <summary>
         /// チェックするカラム（必ず値が入ることが前提で、入っていないセルを見つけるとそこで行を終了する）
         /// </summary>
-        public int CheckCol { get; private set; } = 1;
+        public int CheckCol { get; set; } = 1;
         #endregion
 
         #region 読み込むExcelのシート番号(0から始まる)
         /// <summary>
         /// 読み込むExcelのシート番号(0から始まる)
         /// </summary>
-        public int SheetNo { get; private set; } = 0;
+        public int SheetNo { get; set; } = 0;
         #endregion
 
         #region ヘッダーが存在するかどうか(true:ヘッダあり false:ヘッダなし) 
         /// <summary>
         /// ヘッダーが存在するかどうか(true:ヘッダあり false:ヘッダなし) 
         /// </summary>
-        public bool HeaderF { get; private set; } = true;
+        public bool HeaderF { get; set; } = true;
         #endregion
         #endregion
 
@@ -68,64 +69,51 @@ namespace TableToJsonlConverter.Conveters
         {
 
         }
-        #endregion
 
-        #region 初期化処理
         /// <summary>
-        /// 初期化処理
+        /// コンストラクタ
         /// </summary>
-        /// <param name="ipath">入力ファイルパス(.xlsx)</param>
-        /// <param name="opath">出力ファイルパス(.jsonl)</param>
-        /// <param name="scol">カラム開始位置(A列 = 1, 1から始まる)</param>
-        /// <param name="srow">行開始位置(1から始まる)</param>
-        /// <param name="chcol">チェックするカラム(必ず値が入っているカラムとし、空のセルを見つけた時点でデータ終了とする)</param>
-        /// <param name="sheetno">読み込むExcelのシート番号(0から始まる)</param>
-        /// <param name="headerf">true:ヘッダーあり false:ヘッダーなし</param>
-        /// <returns>true:各設定値が正常 false:設定値が異常</returns>
-        public bool Initialize(string ipath, string opath, int scol = 1, int srow = 1, int chcol = 1, int sheetno = 0, bool headerf = true)
+        /// <param name="inpath">入力ファイルパス</param>
+        /// <param name="headerf">入力ファイルにヘッダーの有無(true:ヘッダ有り false:ヘッダなし)</param>
+        /// <param name="scol">データの開始列(1から始まる, ヘッダーを含む場合はヘッダーの開始位置)</param>
+        /// <param name="srow">データの開始行(1から始まる, ヘッダーを含む場合はヘッダーの開始位置)</param>
+        /// <param name="checkcol">必ずデータが入る列, ここの値が空になったらデータの取得をやめる</param>
+        /// <param name="sheetno">入力ファイルのシート番号(0から始まる)</param>
+        public ZkExcelToJsonl(string inpath, bool headerf = true, int scol = 1, int srow = 1, int checkcol = 1, int sheetno=0)
         {
-            Headers = new ZkHeaders();
-            Rows = new ZkRows();
-            InputPath = ipath;
-            OutputPath = opath;
+            InputPath = inpath;
             StartCol = scol;
             StartRow = srow;
-            CheckCol = chcol;
+            CheckCol = checkcol;
             SheetNo = sheetno;
             HeaderF = headerf;
-
-            // パラメータのチェック
-            return CheckParameter();
         }
         #endregion
 
         #region パラメータのチェック処理
         /// <summary>
-        /// パラメータのチェック処理
+        /// プロパティに問題がないかのチェックを行う
         /// </summary>
-        /// <returns>true:パラメータに不整値あり false:OK</returns>
-        private bool CheckParameter()
+        /// <returns>true:プロパティ(入力ファイルパスが存在しない, 開始位置が0以下, シート番号が0未満) false:OK</returns>
+        public bool PropertyOk
         {
-            bool isok = true;
-
-            // 入力ファイルパス
-            if (!File.Exists(InputPath))
+            get
             {
-                isok = false;
-            }
+                bool isok = true;
 
-            // 出力ファイルパス
-            if (string.IsNullOrEmpty(OutputPath))
-            {
-                isok = false;
-            }
+                // 入力ファイルパス
+                if (!File.Exists(InputPath))
+                {
+                    isok = false;
+                }
 
-            // 各種行、列は1異以上が正常で、シート番号は0以上が正常
-            if (StartCol <= 0 || StartRow <= 0 || CheckCol <= 0 || SheetNo < 0)
-            {
-                isok = false;
+                // 各種行、列は1異以上が正常で、シート番号は0以上が正常
+                if (StartCol <= 0 || StartRow <= 0 || CheckCol <= 0 || SheetNo < 0)
+                {
+                    isok = false;
+                }
+                return isok;
             }
-            return isok;
         }
         #endregion
 

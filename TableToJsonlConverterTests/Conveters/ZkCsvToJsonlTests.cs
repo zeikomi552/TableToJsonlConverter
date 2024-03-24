@@ -13,6 +13,12 @@ namespace TableToJsonlConverter.Conveters.Tests
     public class ZkCsvToJsonlTests
     {
         const string BaseTestFile = "test_base.csv";
+
+        #region テスト用のディレクトリファイルが置かれている場所を取得する
+        /// <summary>
+        /// テスト用のディレクトリファイルが置かれている場所を取得する
+        /// </summary>
+        /// <returns>テスト用ディレクトリパス</returns>
         private string GetTestDir()
         {
             ZkExcelToJsonl test = new ZkExcelToJsonl();
@@ -26,32 +32,28 @@ namespace TableToJsonlConverter.Conveters.Tests
                 if (string.IsNullOrEmpty(path))
                     break;
 
-                string test_path = Path.Combine(path, "testfile", BaseTestFile);
+                string test_path = Path.Combine(path, "TestFiles", "Csv", BaseTestFile);
 
                 if (File.Exists(test_path))
                 {
-                    return Path.Combine(path, "testfile");
+                    return Path.Combine(path, "TestFiles", "Csv");
                 }
             }
 
             return string.Empty;
         }
+        #endregion
         [TestMethod()]
         public void InputTest()
         {
-            ZkCsvToJsonl test = new ZkCsvToJsonl();
 
             string dir = GetTestDir();
             string infile = Path.Combine(dir, BaseTestFile);
-            string outfile = "test_csv.json";
 
-            if (test.Initialize(infile, outfile, Encoding.UTF8, true) == false) { Assert.Fail(); }
-
+            ZkCsvToJsonl test = new(infile, Encoding.UTF8, true);
             test.Read();
 
             if (test.Rows.Count != 100) { Assert.Fail(); }
-
-            test.Write(outfile);
         }
     }
 }
