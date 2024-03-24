@@ -9,13 +9,6 @@ namespace TableToJsonlConverter.Conveters
 {
     public class ZkJsonlBase
     {
-        #region ヘッダー情報
-        /// <summary>
-        /// ヘッダー情報
-        /// </summary>
-        public ZkHeaders Headers { get; protected set; } = new ZkHeaders();
-        #endregion
-
         #region 行情報
         /// <summary>
         /// 行情報

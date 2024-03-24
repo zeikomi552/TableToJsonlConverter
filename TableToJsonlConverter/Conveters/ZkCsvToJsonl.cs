@@ -51,7 +51,6 @@ namespace TableToJsonlConverter.Conveters
         /// <param name="headerf">入力ファイルにヘッダーの有無(true:ヘッダ有り false:ヘッダなし)</param>
         public ZkCsvToJsonl(string ipath, Encoding enc, bool headerf = true)
         {
-            Headers = new ZkHeaders();
             Rows = new ZkRows();
             InputPath = ipath;
             this.HeaderF = headerf;
@@ -81,7 +80,7 @@ namespace TableToJsonlConverter.Conveters
         }
         #endregion
 
-        #region 入力処理
+        #region 読み込み処理
         /// <summary>
         /// 入力処理
         /// </summary>
@@ -118,17 +117,6 @@ namespace TableToJsonlConverter.Conveters
                         }
 
                         this.Rows.Add(row);
-                    }
-
-                    var first_row = this.Rows.FirstOrDefault();
-                    if (first_row != null)
-                    {
-                        int i = 0;
-                        foreach (var col in first_row)
-                        {
-                            this.Headers.Add(i, col.Key);
-                            i++;
-                        }
                     }
                 }
             }

@@ -153,10 +153,10 @@ namespace TableToJsonlConverter.Conveters
                         var ws = workbook.Worksheets.ElementAt(SheetNo);
 
                         // ヘッダーのセット処理
-                        SetHeader(ws);
+                        var headers = ReadHeaders(ws);
 
                         // ヘッダーのセット処理
-                        SetRows(ws);
+                        SetRows(ws, headers);
                     }
                 }
             }
@@ -172,8 +172,9 @@ namespace TableToJsonlConverter.Conveters
         /// ヘッダーのセット処理
         /// </summary>
         /// <param name="ws">ワークシート</param>
-        private void SetHeader(IXLWorksheet ws)
+        private ZkHeaders ReadHeaders(IXLWorksheet ws)
         {
+            ZkHeaders headers = new ZkHeaders();
             int col = StartCol;
 
             if (HeaderF)
@@ -188,7 +189,7 @@ namespace TableToJsonlConverter.Conveters
                     }
                     else
                     {
-                        Headers.Add(col, val.ToString());
+                        headers.Add(col, val.ToString());
                     }
                     col++;
                 }
@@ -205,11 +206,13 @@ namespace TableToJsonlConverter.Conveters
                     }
                     else
                     {
-                        Headers.Add(col, "col" + col.ToString());
+                        headers.Add(col, "col" + col.ToString());
                     }
                     col++;
                 }
             }
+
+            return headers;
         }
         #endregion
 
@@ -218,7 +221,7 @@ namespace TableToJsonlConverter.Conveters
         /// 行のセット処理
         /// </summary>
         /// <param name="ws">エクセルワークシート</param>
-        private void SetRows(IXLWorksheet ws)
+        private void SetRows(IXLWorksheet ws, ZkHeaders headers)
         {
             int col = StartCol;
             int row = StartRow;
@@ -240,7 +243,7 @@ namespace TableToJsonlConverter.Conveters
 
                 var row_tmp = new ZkRow();
                 // ヘッダの数だけ回す
-                foreach (var header in Headers)
+                foreach (var header in headers)
                 {
                     var val = ws.Cell(row, header.Key).CachedValue;
                     ZkData data = new ZkData() { Col = col, Key = header.Value, Value = val};
