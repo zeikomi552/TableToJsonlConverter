@@ -16,6 +16,33 @@ namespace TableToJsonlConverter.Conveters
         public ZkRows Rows { get; protected set; } = new ZkRows();
         #endregion
 
+        #region ヘッダー情報の取得関数
+        /// <summary>
+        /// ヘッダー情報の取得関数
+        /// </summary>
+        /// <param name="row">指定した行のヘッダ情報(動的に変化する様なものでない限り1行目と変わらないので0を指定しておけばよい)</param>
+        /// <returns>ヘッダー情報</returns>
+        public ZkHeaders? GetHeader(int row = 0)
+        {
+            if (this.Rows.Count > row)
+            {
+                var row_tmp = this.Rows.ElementAt(row);
+
+                ZkHeaders ret = new ZkHeaders();
+
+                foreach (var val in row_tmp)
+                {
+                    ret.Add(val.Col, val.Key);
+                }
+                return ret;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        #endregion
+
         #region エスケープ文字辞書
         /// <summary>
         /// エスケープ文字辞書
@@ -93,7 +120,7 @@ namespace TableToJsonlConverter.Conveters
         }
         #endregion
 
-        #region 出力処理
+        #region JsonLines 出力処理
         /// <summary>
         /// JsonLines 出力処理
         /// 失敗時はthrowを投げます
@@ -104,9 +131,7 @@ namespace TableToJsonlConverter.Conveters
             this.OutputPath = path;
             Write();
         }
-        #endregion
 
-        #region JsonLines 出力処理
         /// <summary>
         /// JsonLines 出力処理
         /// 失敗時はthrowを投げます
