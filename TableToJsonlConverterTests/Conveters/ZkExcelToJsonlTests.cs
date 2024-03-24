@@ -8,7 +8,7 @@ using System.Reflection;
 using DocumentFormat.OpenXml.Vml;
 using Path = System.IO.Path;
 using TableToJsonlConverter.Conveters;
-
+using TableToJsonlConverter.Utils;
 
 namespace TableToJsonlConverterTests.Conveters.Tests
 {
@@ -121,7 +121,12 @@ namespace TableToJsonlConverterTests.Conveters.Tests
 
             string dir = GetTestDir();
             string infile = Path.Combine(dir, BaseTestFile);
-            string outfile = "test.json";
+
+            string outdir = Path.Combine(dir, "result");
+            string filename = Path.GetFileNameWithoutExtension(infile) + ".jsonl";
+            string outfile = Path.Combine(outdir, filename);
+
+            PathManager.CreateDirectory(outdir);    // 再帰的にディレクトリの作成
 
             ZkExcelToJsonl test = new ZkExcelToJsonl(infile, true, 1, 1, 1, 0);
             test.Read();

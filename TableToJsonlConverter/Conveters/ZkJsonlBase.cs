@@ -83,7 +83,7 @@ namespace TableToJsonlConverter.Conveters
                     for (int j = 0; j < row.Count; j++)
                     {
                         var item = row[j];
-                        jsonl.Append($"\"{EscapeText(item.Key)}\": \"{EscapeText(item.Value.ToString()!)}\"");
+                        jsonl.Append($"\"{EscapeText(item.Key)}\": \"{EscapeText(item.Value == null ? "" : item.Value!.ToString()!)}\"");
 
                         if (j != row.Count - 1)
                             jsonl.Append(",");

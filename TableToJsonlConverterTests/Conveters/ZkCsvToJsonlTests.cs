@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
+using TableToJsonlConverter.Utils;
 
 namespace TableToJsonlConverter.Conveters.Tests
 {
@@ -54,6 +55,24 @@ namespace TableToJsonlConverter.Conveters.Tests
             test.Read();
 
             if (test.Rows.Count != 100) { Assert.Fail(); }
+        }
+
+        [TestMethod()]
+        public void OutputTest()
+        {
+
+            string dir = GetTestDir();
+            string infile = Path.Combine(dir, BaseTestFile);
+
+            string outdir = Path.Combine(dir, "result");
+            string filename = Path.GetFileNameWithoutExtension(infile) + ".jsonl";
+            string outfile = Path.Combine(outdir, filename);
+
+            PathManager.CreateDirectory(outdir);    // 再帰的にディレクトリの作成
+
+            ZkCsvToJsonl test = new ZkCsvToJsonl(infile, Encoding.UTF8, true);
+            test.Read();
+            test.Write(outfile);
         }
     }
 }
