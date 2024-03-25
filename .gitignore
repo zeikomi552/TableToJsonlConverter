@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 /TableToJsonlConverterTests/TestFiles/Csv/result
 /TableToJsonlConverterTests/TestFiles/Excel/result
+/TableToJsonlConverterTests/TestFiles/SQLServer/results

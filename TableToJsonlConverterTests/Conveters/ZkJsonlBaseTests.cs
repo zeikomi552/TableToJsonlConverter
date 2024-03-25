@@ -15,6 +15,30 @@ namespace TableToJsonlConverter.Conveters.Tests
     {
         const string BaseTestFile = "test_base.xlsx";
 
+        public static string GetTestBaseDir()
+        {
+            ZkExcelToJsonl test = new ZkExcelToJsonl();
+            Assembly myAssembly = Assembly.GetEntryAssembly()!;
+            string? path = myAssembly.Location;
+
+            while (path != null)
+            {
+                path = Path.GetDirectoryName(path);
+
+                if (string.IsNullOrEmpty(path))
+                    break;
+
+                string test_path = Path.Combine(path, "TestFiles", "Excel", BaseTestFile);
+
+                if (File.Exists(test_path))
+                {
+                    return Path.Combine(path, "TestFiles");
+                }
+            }
+
+            return string.Empty;
+        }
+
         [TestMethod()]
         public void GetHeaderTest()
         {
@@ -73,8 +97,8 @@ namespace TableToJsonlConverter.Conveters.Tests
 
             Dictionary<string, string> test_case = new Dictionary<string, string>()
             {
-                { "1234567890-^\\qwertyuiop@[asdfghjkl;:]zxcvbnm,./\\", "1234567890-^\\\\qwertyuiop@[asdfghjkl;:]zxcvbnm,.\\/\\\\"},
-                { "https://www.premium-tsubu-hero.net/", "https:\\/\\/www.premium-tsubu-hero.net\\/"},
+                { "1234567890-^\\qwertyuiop@[asdfghjkl;:]zxcvbnm,./\\", "1234567890-^\\\\qwertyuiop@[asdfghjkl;:]zxcvbnm,./\\\\"},
+                { "https://www.premium-tsubu-hero.net/", "https://www.premium-tsubu-hero.net/"},
                 { "", ""},
                 { "!\"#$%&'()=~|QWERTYUIOP`{ASDFGHJKL+*}ZXCVBNM<>?_", "!\\\"#$%&'()=~|QWERTYUIOP`{ASDFGHJKL+*}ZXCVBNM<>?_"},
                 { "今日の天気は晴れ", "今日の天気は晴れ"},
