@@ -101,25 +101,6 @@ namespace TableToJsonlConverter.Conveters
                     }
                     connection.Close();
                 }
-                //SQLiteConnection con = new SQLiteConnection("Data Source=mydb.sqlite;Version=3;");
-                //con.Open();
-                //try
-                //{
-                //    string sql = "select * from products";
-
-                //    SqliteCommand com = new SQLiteCommand(sql, con);
-                //    SQLiteDataReader sdr = com.ExecuteReader();
-                //    while (sdr.Read() == true)
-                //    {
-                //        textBox1.Text += string.Format("id:{0:d}, code:{1}, name:{2}, price:{3:d}\r\n",
-                //          (int)sdr["id"], (string)sdr["code"], (string)sdr["name"], (int)sdr["price"]);
-                //    }
-                //    sdr.Close();
-                //}
-                //finally
-                //{
-                //    con.Close();
-                //}
             }
             catch
             {
