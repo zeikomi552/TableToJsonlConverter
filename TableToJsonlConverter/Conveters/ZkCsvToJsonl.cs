@@ -14,6 +14,9 @@ using TableToJsonlConverter.Models;
 
 namespace TableToJsonlConverter.Conveters
 {
+    /// <summary>
+    /// Csv to JsonLines
+    /// </summary>
     public class ZkCsvToJsonl : ZkJsonlBase, IZkTableToJsonl
     {
         #region 入力ファイルパス(Csv)

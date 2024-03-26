@@ -11,6 +11,9 @@ using TableToJsonlConverter.Models;
 
 namespace TableToJsonlConverter.Conveters
 {
+    /// <summary>
+    /// SQL Server Table to JsonLines
+    /// </summary>
     public class ZkSQLServerToJsonl : ZkJsonlBase, IZkTableToJsonl
     {
         public string ConnectionString { get; set; } = string.Empty;

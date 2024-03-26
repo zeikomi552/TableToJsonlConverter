@@ -13,6 +13,7 @@ using TableToJsonlConverter.Models;
 namespace TableToJsonlConverter.Conveters
 {
     /// <summary>
+    /// Excel to JsonLines
     /// 表形式で表現されるエクセルをJson Lines形式に変換するクラス
     /// </summary>
     public class ZkExcelToJsonl : ZkJsonlBase, IZkTableToJsonl

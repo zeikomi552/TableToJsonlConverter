@@ -7,6 +7,9 @@ using TableToJsonlConverter.Models;
 
 namespace TableToJsonlConverter.Conveters
 {
+    /// <summary>
+    /// Base class
+    /// </summary>
     public class ZkJsonlBase
     {
         #region 行情報
