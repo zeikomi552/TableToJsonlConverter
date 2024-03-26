@@ -38,6 +38,7 @@ namespace TableToJsonlConverter.Conveters
         public Encoding Encoding { get; set; } = Encoding.UTF8;
         #endregion
 
+        #region コンストラクタ
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -59,7 +60,8 @@ namespace TableToJsonlConverter.Conveters
             this.HeaderF = headerf;
 
             this.Encoding = enc;
-        }       
+        }
+        #endregion
 
         #region パラメータのチェック処理
         /// <summary>
