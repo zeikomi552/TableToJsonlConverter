@@ -54,7 +54,7 @@ namespace TableToJsonlConverter.Conveters
             for (int i = 0; i < field_max; i++)
             {
                 string hd = sdr.GetName(i);
-                header.Add(new ZkHeaderData() { Col = 0, ColumnName = hd });
+                header.Add(new ZkHeaderData() { Col = i, ColumnName = hd });
             }
             return header;
         }
