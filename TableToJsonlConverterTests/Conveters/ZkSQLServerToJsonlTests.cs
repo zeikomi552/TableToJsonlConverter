@@ -61,9 +61,13 @@ namespace TableToJsonlConverter.Conveters.Tests
             var base_test_dir = ZkJsonlBaseTests.GetTestBaseDir();
             var test_dir  = Path.Combine(base_test_dir, "SQLServer", "results");
             var filepath = Path.Combine(test_dir, "sqlserver.json");
+            var filepath_gz = Path.Combine(test_dir, "sqlserver.json");
 
             PathManager.CreateCurrentDirectory(filepath);
             zkSQLServerToJsonl.Write(filepath);
+            zkSQLServerToJsonl.CompressWrite(filepath_gz);
+
+
         }
     }
 }

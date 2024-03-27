@@ -139,11 +139,60 @@ namespace TableToJsonlConverter.Conveters
         /// JsonLines 出力処理
         /// 失敗時はthrowを投げます
         /// </summary>
-        public virtual void Write()
+        public virtual void Write(bool compress_f = false)
         {
             try
             {
                 File.WriteAllText(this.OutputPath, JsonLines);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        #endregion
+
+        #region Gzipに圧縮してファイル書き出し
+        public void CompressWrite(string path)
+        {
+            this.OutputPath = path;
+            CompressWrite();
+        }
+        /// <summary>
+        /// Gzipに圧縮してファイル書き出し
+        /// 失敗時はthrowを投げます
+        /// </summary>
+        public void CompressWrite()
+        {
+            try
+            {
+                //作成する圧縮ファイルのパス
+                string gzipFile = this.OutputPath + ".gz";
+
+                Encoding encoding = Encoding.UTF8;
+                string str = this.JsonLines;
+
+                //圧縮するデータをすべて読み取る
+                using (System.IO.MemoryStream inFileStrm = new MemoryStream(encoding.GetBytes(str)))
+                {
+                    byte[] compData = new byte[inFileStrm.Length];
+                    inFileStrm.Read(compData, 0, compData.Length);
+                    inFileStrm.Close();
+
+                    //作成する圧縮ファイルのFileStreamを作成する
+                    using (System.IO.FileStream compFileStrm =
+                        new System.IO.FileStream(gzipFile, System.IO.FileMode.Create))
+                    {
+                        //圧縮モードのGZipStreamを作成する
+                        System.IO.Compression.GZipStream gzipStrm =
+                            new System.IO.Compression.GZipStream(compFileStrm,
+                                System.IO.Compression.CompressionMode.Compress);
+                        //データを圧縮して書き込む
+                        gzipStrm.Write(compData, 0, compData.Length);
+                        //閉じる
+                        gzipStrm.Close();
+                    }
+                }
             }
             catch
             {
