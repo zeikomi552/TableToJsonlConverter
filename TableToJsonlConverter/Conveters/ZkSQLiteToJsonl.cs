@@ -12,6 +12,9 @@ using TableToJsonlConverter.Models;
 
 namespace TableToJsonlConverter.Conveters
 {
+    /// <summary>
+    /// SQLiteテーブルをJson Linesの変換を行うクラス
+    /// </summary>
     public class ZkSQLiteToJsonl : ZkJsonlBase, IZkTableToJsonl
     {
         #region 入力ファイルパス(SQLite)

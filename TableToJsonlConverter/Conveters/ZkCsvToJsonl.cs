@@ -15,7 +15,7 @@ using TableToJsonlConverter.Models;
 namespace TableToJsonlConverter.Conveters
 {
     /// <summary>
-    /// Csv to JsonLines
+    /// CSVファイルをJson Linesの変換を行うクラス
     /// </summary>
     public class ZkCsvToJsonl : ZkJsonlBase, IZkTableToJsonl
     {

@@ -8,7 +8,7 @@ using TableToJsonlConverter.Models;
 namespace TableToJsonlConverter.Conveters
 {
     /// <summary>
-    /// Base class
+    /// 各種Json Lines変換クラスの基底クラス
     /// </summary>
     public class ZkJsonlBase
     {

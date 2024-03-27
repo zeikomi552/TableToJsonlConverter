@@ -13,8 +13,7 @@ using TableToJsonlConverter.Models;
 namespace TableToJsonlConverter.Conveters
 {
     /// <summary>
-    /// Excel to JsonLines
-    /// 表形式で表現されるエクセルをJson Lines形式に変換するクラス
+    /// XLSXファイルをJson Linesの変換を行うクラス
     /// </summary>
     public class ZkExcelToJsonl : ZkJsonlBase, IZkTableToJsonl
     {
@@ -80,7 +79,7 @@ namespace TableToJsonlConverter.Conveters
         /// <param name="srow">データの開始行(1から始まる, ヘッダーを含む場合はヘッダーの開始位置)</param>
         /// <param name="checkcol">必ずデータが入る列, ここの値が空になったらデータの取得をやめる</param>
         /// <param name="sheetno">入力ファイルのシート番号(0から始まる)</param>
-        public ZkExcelToJsonl(string inpath, bool headerf = true, int scol = 1, int srow = 1, int checkcol = 1, int sheetno=0)
+        public ZkExcelToJsonl(string inpath, bool headerf = true, int scol = 1, int srow = 1, int checkcol = 1, int sheetno = 0)
         {
             InputPath = inpath;
             StartCol = scol;

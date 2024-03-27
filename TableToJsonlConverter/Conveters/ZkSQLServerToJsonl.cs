@@ -12,7 +12,7 @@ using TableToJsonlConverter.Models;
 namespace TableToJsonlConverter.Conveters
 {
     /// <summary>
-    /// SQL Server Table to JsonLines
+    /// SQL Server TableをJson Linesの変換を行うクラス
     /// </summary>
     public class ZkSQLServerToJsonl : ZkJsonlBase, IZkTableToJsonl
     {
