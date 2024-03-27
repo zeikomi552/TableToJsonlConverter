@@ -63,9 +63,9 @@ namespace TableToJsonlConverter.Conveters
         }
         #endregion
 
-        #region パラメータのチェック処理
+        #region パラメータのチェックプロパティ
         /// <summary>
-        /// パラメータのチェック処理
+        /// パラメータのチェックプロパティ
         /// </summary>
         /// <returns>true:パラメータに不整値あり false:OK</returns>
         public bool PropertyOk
@@ -87,7 +87,7 @@ namespace TableToJsonlConverter.Conveters
 
         #region 読み込み処理
         /// <summary>
-        /// 入力処理
+        /// 対象データの読み込み処理
         /// </summary>
         public void Read()
         {
