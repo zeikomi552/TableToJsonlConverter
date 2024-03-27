@@ -45,34 +45,38 @@ namespace TableToJsonlConverter.Conveters.Tests
         }
         #endregion
         [TestMethod()]
-        public void InputTest()
+        public void ReadTest()
         {
+            var test = ReadSub();
 
+            if (test.Rows.Count != 100) { Assert.Fail(); }
+        }
+
+        private ZkCsvToJsonl ReadSub()
+        {
             string dir = GetTestDir();
             string infile = Path.Combine(dir, BaseTestFile);
 
             ZkCsvToJsonl test = new(infile, Encoding.UTF8, true);
             test.Read();
 
-            if (test.Rows.Count != 100) { Assert.Fail(); }
+            return test;
         }
 
         [TestMethod()]
-        public void OutputTest()
+        public void WriteTest()
         {
+            var read_result = ReadSub();
 
-            string dir = GetTestDir();
-            string infile = Path.Combine(dir, BaseTestFile);
+            string file_path = "csv_test.json";
+            var base_test_dir = ZkJsonlBaseTests.GetTestBaseDir();
+            var test_dir = Path.Combine(base_test_dir, "csv", "results");
+            var filepath = Path.Combine(test_dir, file_path);
+            PathManager.CreateCurrentDirectory(filepath);
 
-            string outdir = Path.Combine(dir, "result");
-            string filename = Path.GetFileNameWithoutExtension(infile) + ".jsonl";
-            string outfile = Path.Combine(outdir, filename);
-
-            PathManager.CreateDirectory(outdir);    // 再帰的にディレクトリの作成
-
-            ZkCsvToJsonl test = new ZkCsvToJsonl(infile, Encoding.UTF8, true);
-            test.Read();
-            test.Write(outfile);
+            var filepath_gz = Path.Combine(test_dir, file_path);
+            read_result.Write(filepath);
+            read_result.CompressWrite(filepath_gz);
         }
     }
 }

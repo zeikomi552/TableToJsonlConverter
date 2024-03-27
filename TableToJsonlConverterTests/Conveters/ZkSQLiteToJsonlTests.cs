@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
 using TableToJsonlConverter.Models;
+using TableToJsonlConverter.Utils;
 
 namespace TableToJsonlConverter.Conveters.Tests
 {
@@ -57,7 +58,23 @@ namespace TableToJsonlConverter.Conveters.Tests
         [TestMethod()]
         public void ReadTest()
         {
-            CreateSQLite();
+            var test = ReadSub();
+
+            if (test.Rows.Count != 100) { Assert.Fail(); }
+
+            if (test.GetHeader(0)!.Count != 2)
+            {
+                Assert.Fail();
+            }
+        }
+
+        private ZkSQLiteToJsonl ReadSub(bool create_f = true)
+        {
+            if (create_f)
+            {
+                CreateSQLite();
+            }
+
             ZkSQLiteToJsonl tojson = new ZkSQLiteToJsonl()
             {
                 ConnectionString = Connectionstring,
@@ -65,15 +82,24 @@ namespace TableToJsonlConverter.Conveters.Tests
             };
             tojson.Read();
 
-            if (tojson.Rows.Count != 100)
-            {
-                Assert.Fail();
-            }
+            return tojson;
+        }
 
-            if (tojson.GetHeader(0)!.Count != 2)
-            {
-                Assert.Fail();
-            }
+
+        [TestMethod()]
+        public void WriteTest()
+        {
+            var test = ReadSub(false);
+
+            string file_path = "sqlite.json";
+            var base_test_dir = ZkJsonlBaseTests.GetTestBaseDir();
+            var test_dir = Path.Combine(base_test_dir, "Sqlite", "results");
+            var filepath = Path.Combine(test_dir, file_path);
+            PathManager.CreateCurrentDirectory(filepath);
+
+            var filepath_gz = Path.Combine(test_dir, file_path);
+            test.Write(filepath);
+            test.CompressWrite(filepath_gz);
         }
     }
 }

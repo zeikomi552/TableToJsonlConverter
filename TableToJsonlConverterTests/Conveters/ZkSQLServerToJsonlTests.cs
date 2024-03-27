@@ -45,6 +45,16 @@ namespace TableToJsonlConverter.Conveters.Tests
         [TestMethod()]
         public void ReadTest()
         {
+            var zkSQLServerToJsonl = ReadSub();
+
+            if (zkSQLServerToJsonl.Rows.Count == 0)
+            {
+                Assert.Fail();
+            }
+        }
+
+        private ZkSQLServerToJsonl ReadSub()
+        {
             ZkSQLServerToJsonl zkSQLServerToJsonl = new ZkSQLServerToJsonl()
             {
                 ConnectionString = Connectionstring,
@@ -53,21 +63,23 @@ namespace TableToJsonlConverter.Conveters.Tests
 
             zkSQLServerToJsonl.Read();
 
-            if (zkSQLServerToJsonl.Rows.Count == 0)
-            {
-                Assert.Fail();
-            }
+            return zkSQLServerToJsonl;
+        }
 
+        [TestMethod()]
+        public void WriteTest()
+        {
+            var zkSQLServerToJsonl = ReadSub();
+
+            string file_path = "sqlserver.json";
             var base_test_dir = ZkJsonlBaseTests.GetTestBaseDir();
-            var test_dir  = Path.Combine(base_test_dir, "SQLServer", "results");
-            var filepath = Path.Combine(test_dir, "sqlserver.json");
-            var filepath_gz = Path.Combine(test_dir, "sqlserver.json");
-
+            var test_dir = Path.Combine(base_test_dir, "SQLServer", "results");
+            var filepath = Path.Combine(test_dir, file_path);
             PathManager.CreateCurrentDirectory(filepath);
+
+            var filepath_gz = Path.Combine(test_dir, file_path);
             zkSQLServerToJsonl.Write(filepath);
             zkSQLServerToJsonl.CompressWrite(filepath_gz);
-
-
         }
     }
 }
