@@ -1,31 +1,12 @@
-# TableToJsonlConverter
+﻿// See https://aka.ms/new-console-template for more information
+using DocumentFormat.OpenXml.Spreadsheet;
+using System.Diagnostics;
+using TableToJsonlConverter.Conveters;
+Console.WriteLine("Hello, World!");
 
-## Summary
-以下の記事に影響を受けて作成しました。
 
-[Qiita - Snowflake Snowpipeを本番導入する前に読むやつ](https://zenn.dev/pei0804/articles/snowflake-snowpipe-production-ready)
-
-ローカルのデータをJson Linesに簡単に変換することを目的としています。現時点では以下に対応しています。
-
-- Excel
-- CSV（or TSV）
-- Microsoft SQL Server
-- SQLite
-
-## Getting Started
-
-[Nuget - TableToJsonlConverter](https://www.nuget.org/packages/TableToJsonlConverter/)
-
-## Source Code
-
-- Visual Studio 2022
-- .NET 6.0
-
-## How to Use
-
-エクセルからJsonLinesに変換する
-
-```
+void FromExcel()
+{
     string ifile = @"TestFiles\Excel\test_base.xlsx";   // input file path
     bool headerf = true;                                // Whether the header is present
     int scol = 1;                                       // Start column Numboer (Numbers starting with 1)
@@ -63,7 +44,6 @@
 
     // outpu Json Lines .gz
     test.CompressWrite(ofile);
-    ```
+}
 
-
-
+FromExcel();
