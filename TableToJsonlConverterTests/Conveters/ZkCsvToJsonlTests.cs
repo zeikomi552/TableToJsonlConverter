@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 using TableToJsonlConverter.Utils;
+using DocumentFormat.OpenXml.Math;
 
 namespace TableToJsonlConverter.Conveters.Tests
 {
@@ -62,7 +63,16 @@ namespace TableToJsonlConverter.Conveters.Tests
 
             return test;
         }
+        private ZkCsvToJsonl ReadSub2()
+        {
+            string dir = GetTestDir();
+            string infile = Path.Combine(dir, "test_base.tsv");
 
+            ZkCsvToJsonl test = new(infile, Encoding.UTF8, true,"\t");
+            test.Read();
+
+            return test;
+        }
         [TestMethod()]
         public void WriteTest()
         {
@@ -77,6 +87,20 @@ namespace TableToJsonlConverter.Conveters.Tests
             var filepath_gz = Path.Combine(test_dir, file_path);
             read_result.Write(filepath);
             read_result.CompressWrite(filepath_gz);
+
+
+            read_result = ReadSub2();
+
+            file_path = "csv_test.tsv.json";
+            base_test_dir = ZkJsonlBaseTests.GetTestBaseDir();
+            test_dir = Path.Combine(base_test_dir, "csv", "results");
+            filepath = Path.Combine(test_dir, file_path);
+            PathManager.CreateCurrentDirectory(filepath);
+
+            filepath_gz = Path.Combine(test_dir, file_path);
+            read_result.Write(filepath);
+            read_result.CompressWrite(filepath_gz);
+
         }
     }
 }

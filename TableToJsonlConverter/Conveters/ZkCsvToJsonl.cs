@@ -36,6 +36,10 @@ namespace TableToJsonlConverter.Conveters
         /// ファイルのエンコーディング
         /// </summary>
         public Encoding Encoding { get; set; } = Encoding.UTF8;
+        /// <summary>
+        /// 区切り文字
+        /// </summary>
+        public string Delimiter { get; set; } = ",";
         #endregion
 
         #region コンストラクタ
@@ -53,13 +57,14 @@ namespace TableToJsonlConverter.Conveters
         /// <param name="inpath">入力ファイルパス</param>
         /// <param name="enc">エンコーディング</param>
         /// <param name="headerf">入力ファイルにヘッダーの有無(true:ヘッダ有り false:ヘッダなし)</param>
-        public ZkCsvToJsonl(string ipath, Encoding enc, bool headerf = true)
+        public ZkCsvToJsonl(string ipath, Encoding enc, bool headerf = true, string delimiter = ",")
         {
             Rows = new ZkRows();
             InputPath = ipath;
             this.HeaderF = headerf;
 
             this.Encoding = enc;
+            this.Delimiter = delimiter;
         }
         #endregion
 
@@ -97,6 +102,7 @@ namespace TableToJsonlConverter.Conveters
                 {
                     //読み取ったヘッダが小文字に変換されるように ToLower() を仕込みます。
                     PrepareHeaderForMatch = args => args.Header.ToLower(),
+                    Delimiter= this.Delimiter
                 };
 
                 Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);

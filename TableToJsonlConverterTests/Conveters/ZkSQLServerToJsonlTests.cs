@@ -15,7 +15,7 @@ namespace TableToJsonlConverter.Conveters.Tests
     public class ZkSQLServerToJsonlTests
     {
 #warning Modifications are required for the test environment.
-        const string Connectionstring = @"Data Source=TANE2\SQLEXPRESS;Initial Catalog=AdventureWorks2019;User ID=testuser;Password=testuser;Encrypt=false;TrustServerCertificate=true";
+        const string Connectionstring = @"Data Source=TANE2\SQLEXPRESS;Initial Catalog=AdventureWorks2019;User ID=testuser;Password=testuser;Encrypt=False;Trust Server Certificate=True";
         const string Sqlcommand = "select top 100 * From Person.Person";
 
 
