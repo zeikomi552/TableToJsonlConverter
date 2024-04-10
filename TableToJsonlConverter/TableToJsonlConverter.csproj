@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Authors>Zeikomi552</Authors>
-    <Version>0.0.12</Version>
+    <Version>0.0.13</Version>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/zeikomi552/TableToJsonlConverter</RepositoryUrl>
   </PropertyGroup>
