@@ -58,7 +58,13 @@ namespace TableToJsonlConverter.Conveters.Tests
             string dir = GetTestDir();
             string infile = Path.Combine(dir, BaseTestFile);
 
-            ZkCsvToJsonl test = new(infile, Encoding.UTF8, true);
+            var test = new ZkCsvToJsonl()
+            {
+                InputPath = infile, 
+                Encoding = Encoding.UTF8,
+                HeaderF = true,
+                Delimiter = ",",
+            };
             test.Read();
 
             return test;

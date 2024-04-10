@@ -94,8 +94,19 @@ namespace TableToJsonlConverterTests.Conveters.Tests
             string dir = GetTestDir();
 
             string infile = Path.Combine(dir, filename);
-            test = new ZkExcelToJsonl(infile, headerf, scol, srow, checkcol, sheetno);         // 初期設定(ヘッダあり, 1行1列目スタート, チェック列1)
-            test.Read();                                                 // 読み込み
+
+            test = new ZkExcelToJsonl()
+            {
+                InputPath = infile,             // input file path for .xlsx
+                HeaderF = headerf,              // hedder -> true:exist false:not exist
+                StartCol = scol,                // start column -> 1~
+                StartRow = srow,                // start row -> 1~
+                CheckCol = checkcol,            // not null column -> 1~
+                SheetNo = sheetno               // excel sheet index -> 0~
+            };
+
+            test.Read();
+
             return test;
         }
 

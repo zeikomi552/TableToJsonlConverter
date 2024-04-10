@@ -80,6 +80,7 @@ namespace TableToJsonlConverter.Conveters.Tests
             var filepath_gz = Path.Combine(test_dir, file_path);
             zkSQLServerToJsonl.Write(filepath);
             zkSQLServerToJsonl.CompressWrite(filepath_gz);
+
         }
     }
 }
