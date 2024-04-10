@@ -63,7 +63,76 @@
 
     // outpu Json Lines .gz
     test.CompressWrite(ofile);
-    ```
+```
+
+Excel to Json Lines
+
+```
+var test = new ZkExcelToJsonl()
+{
+    InputPath = @"C:\test.xlsx",    // input file path for .xlsx
+    HeaderF = true,                 // hedder -> true:exist false:not exist
+    StartCol = 1,                   // start column -> 1~
+    StartRow = 1,                   // start row -> 1~
+    CheckCol = 1,                   // not null column -> 1~
+    SheetNo = 0                     // excel sheet index -> 0~
+};
+
+test.Read();
+
+string outpath = @"C:\test.json";
+test.Write(outpath);                // json lines file
+test.CompressWrite(outpath);        // compress json lines file .gz
+
+```
+
+Csv to Json Lines
+
+```
+var test = new ZkCsvToJsonl()
+{
+    InputPath = @"C:\test.csv",     // input file path for .csv
+    Encoding = Encoding.UTF8,       // file encoding
+    HeaderF = true,                 // hedder -> true:exist false:not exist
+    Delimiter = ",",                // delimita caractor
+};
+test.Read();
+
+string outpath = @"C:\test.json";
+test.Write(outpath);                // json lines file
+test.CompressWrite(outpath);        // compress json lines file .gz
+```
+
+SQLite to Json Lines
+
+```
+var test = new ZkSQLiteToJsonl()
+{
+    ConnectionString = @"Data Source=test.db",
+    SQLCommand = "select * From [TEST]"
+};
+test.Read();
+
+string outpath = @"C:\test.json";
+test.Write(outpath);                // json lines file
+test.CompressWrite(outpath);        // compress json lines file .gz
+```
+
+Microsoft SQL Server to Json Lines
+
+```
+var test = new ZkSQLServerToJsonl()
+{
+    ConnectionString = @"Data Source=PCNAME\SQLEXPRESS;Initial Catalog=AdventureWorks2019;User ID=testuser;Password=testuser;Encrypt=False;Trust Server Certificate=True",
+    SQLCommand = "select top 100 * From Person.Person"
+};
+
+test.Read();
+
+string outpath = @"C:\test.json";
+test.Write(outpath);                // json lines file
+test.CompressWrite(outpath);        // compress json lines file .gz
+```
 
 
 
