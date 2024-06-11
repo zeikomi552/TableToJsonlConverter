@@ -94,7 +94,7 @@ namespace TableToJsonlConverter.Conveters
         /// <summary>
         /// 対象データの読み込み処理
         /// </summary>
-        public void Read()
+        public void Read(int read_rowcount = -1)
         {
             try
             {
@@ -104,6 +104,8 @@ namespace TableToJsonlConverter.Conveters
                     PrepareHeaderForMatch = args => args.Header.ToLower(),
                     Delimiter= this.Delimiter
                 };
+
+                int row_cnt = 1;
 
                 Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
                 using (var reader = new StreamReader(this.InputPath, this.Encoding))
@@ -128,6 +130,10 @@ namespace TableToJsonlConverter.Conveters
                         }
 
                         this.Rows.Add(row);
+
+                        row_cnt++;
+                        if (read_rowcount > 0 && row_cnt > read_rowcount)
+                            break;
                     }
                 }
             }
@@ -137,5 +143,6 @@ namespace TableToJsonlConverter.Conveters
             }
         }
         #endregion
+
     }
 }

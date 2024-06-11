@@ -58,7 +58,7 @@ namespace TableToJsonlConverter.Conveters
         /// 入力処理
         /// 失敗時はthrowを投げます
         /// </summary>
-        public void Read()
+        public void Read(int read_rowcount = -1)
         {
             try
             {
@@ -75,6 +75,7 @@ namespace TableToJsonlConverter.Conveters
                             ZkHeaders? header = null;
                             ZkRows rows = new ZkRows();
 
+                            int row_cnt = 1;
                             while (reader.Read())
                             {
                                 if (header == null)
@@ -98,6 +99,10 @@ namespace TableToJsonlConverter.Conveters
                                 }
                                 rows.Add(row);
 
+                                row_cnt++;
+                                if (read_rowcount > 0 && row_cnt > read_rowcount)
+                                    break;
+
                             }
                             this.Rows = rows;
                         }
@@ -111,5 +116,6 @@ namespace TableToJsonlConverter.Conveters
             }
         }
         #endregion
+
     }
 }

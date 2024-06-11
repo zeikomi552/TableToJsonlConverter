@@ -46,14 +46,12 @@ namespace TableToJsonlConverter.Conveters.Tests
         public void ReadTest()
         {
             var zkSQLServerToJsonl = ReadSub();
-
-            if (zkSQLServerToJsonl.Rows.Count == 0)
-            {
-                Assert.Fail();
-            }
+            Assert.AreEqual(100, zkSQLServerToJsonl.Rows.Count);
+            zkSQLServerToJsonl = ReadSub(10);
+            Assert.AreEqual(10, zkSQLServerToJsonl.Rows.Count);
         }
 
-        private ZkSQLServerToJsonl ReadSub()
+        private ZkSQLServerToJsonl ReadSub(int readcount = -1)
         {
             ZkSQLServerToJsonl zkSQLServerToJsonl = new ZkSQLServerToJsonl()
             {
@@ -61,7 +59,7 @@ namespace TableToJsonlConverter.Conveters.Tests
                 SQLCommand = Sqlcommand
             };
 
-            zkSQLServerToJsonl.Read();
+            zkSQLServerToJsonl.Read(readcount);
 
             return zkSQLServerToJsonl;
         }

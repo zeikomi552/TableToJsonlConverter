@@ -87,7 +87,7 @@ namespace TableToJsonlConverterTests.Conveters.Tests
         /// <param name="checkcol">必ずデータが入る列, ここの値が空になったらデータの取得をやめる</param>
         /// <param name="sheetno">入力ファイルのシート番号(0から始まる)</param>
         /// <returns></returns>
-        private ZkExcelToJsonl ReadSub(string filename, bool headerf = true, int scol = 1, int srow = 1, int checkcol = 1, int sheetno = 0)
+        private ZkExcelToJsonl ReadSub(string filename, bool headerf = true, int scol = 1, int srow = 1, int checkcol = 1, int sheetno = 0, int rowcount = -1)
         {
             ZkExcelToJsonl test = new ZkExcelToJsonl();
 
@@ -105,7 +105,7 @@ namespace TableToJsonlConverterTests.Conveters.Tests
                 SheetNo = sheetno               // excel sheet index -> 0~
             };
 
-            test.Read();
+            test.Read(rowcount);
 
             return test;
         }
@@ -113,23 +113,42 @@ namespace TableToJsonlConverterTests.Conveters.Tests
         [TestMethod()]
         public void ReadTest()
         {
-            var test = ReadSub(BaseTestFile, true, 1, 1, 1, 0);
-            if (test.Rows.Count != 100) { Assert.Fail(); }                              // 100行読み込む想定
+            var test = ReadSub(BaseTestFile, true, 1, 1, 1, 0);;
+            Assert.AreEqual(100, test.Rows.Count);
 
             test = ReadSub("test_base_noheader_1_1.xlsx", false, 1, 1, 1, 0);           // 初期設定(ヘッダなし, 1行1列目スタート, チェック列1)
-            if (test.Rows.Count != 100) { Assert.Fail(); }                              // 100行読み込む想定
+            Assert.AreEqual(100, test.Rows.Count);
 
             test = ReadSub("test_base_2_2.xlsx", true, 2, 2, 2, 0);                     // 初期設定(ヘッダあり, 2行2列目スタート, チェック列2)
-            if (test.Rows.Count != 100) { Assert.Fail(); }                              // 100行読み込む想定
+            Assert.AreEqual(100, test.Rows.Count);
 
             test = ReadSub("test_base_noheader_2_2.xlsx", false, 2, 2, 2, 0);           // 初期設定(ヘッダなし, 2行2列目スタート, チェック列2)
-            if (test.Rows.Count != 100) { Assert.Fail(); }                              // 100行読み込む想定
+            Assert.AreEqual(100, test.Rows.Count);
 
             test = ReadSub("test_base_2_2_3.xlsx", true, 2, 2, 3, 0);                   // 初期設定(ヘッダなし, 2行2列目スタート, チェック列3)
-            if (test.Rows.Count != 10) { Assert.Fail(); }                               // 10行読み込む想定
+            Assert.AreEqual(100, test.Rows.Count);
 
             test = ReadSub("test_base_sheet2.xlsx", true, 1, 1, 1, 1);                  // 初期設定(ヘッダなし, 2行2列目スタート, チェック列3, 2つ目のシートの読み込み)
-            if (test.Rows.Count != 50) { Assert.Fail(); }                               // 50行読み込む想定
+            Assert.AreEqual(50, test.Rows.Count);
+
+
+            test = ReadSub(BaseTestFile, true, 1, 1, 1, 0, 10); ;
+            Assert.AreEqual(10, test.Rows.Count);
+
+            test = ReadSub("test_base_noheader_1_1.xlsx", false, 1, 1, 1, 0, 10);           // 初期設定(ヘッダなし, 1行1列目スタート, チェック列1)
+            Assert.AreEqual(10, test.Rows.Count);
+
+            test = ReadSub("test_base_2_2.xlsx", true, 2, 2, 2, 0, 10);                     // 初期設定(ヘッダあり, 2行2列目スタート, チェック列2)
+            Assert.AreEqual(10, test.Rows.Count);
+
+            test = ReadSub("test_base_noheader_2_2.xlsx", false, 2, 2, 2, 0, 10);           // 初期設定(ヘッダなし, 2行2列目スタート, チェック列2)
+            Assert.AreEqual(10, test.Rows.Count);
+
+            test = ReadSub("test_base_2_2_3.xlsx", true, 2, 2, 3, 0, 10);                   // 初期設定(ヘッダなし, 2行2列目スタート, チェック列3)
+            Assert.AreEqual(10, test.Rows.Count);
+
+            test = ReadSub("test_base_sheet2.xlsx", true, 1, 1, 1, 1, 10);                  // 初期設定(ヘッダなし, 2行2列目スタート, チェック列3, 2つ目のシートの読み込み)
+            Assert.AreEqual(10, test.Rows.Count);
         }
 
         [TestMethod()]

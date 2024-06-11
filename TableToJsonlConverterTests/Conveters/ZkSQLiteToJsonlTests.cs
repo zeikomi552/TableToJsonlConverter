@@ -60,15 +60,16 @@ namespace TableToJsonlConverter.Conveters.Tests
         {
             var test = ReadSub();
 
-            if (test.Rows.Count != 100) { Assert.Fail(); }
+            Assert.AreEqual(100, test.Rows.Count);
+            Assert.AreEqual(2, test.GetHeader(0)!.Count);
 
-            if (test.GetHeader(0)!.Count != 2)
-            {
-                Assert.Fail();
-            }
+            test = ReadSub(false, 10);
+
+            Assert.AreEqual(10, test.Rows.Count);
+            Assert.AreEqual(2, test.GetHeader(0)!.Count);
         }
 
-        private ZkSQLiteToJsonl ReadSub(bool create_f = true)
+        private ZkSQLiteToJsonl ReadSub(bool create_f = true, int readcount = -1)
         {
             if (create_f)
             {
@@ -80,7 +81,7 @@ namespace TableToJsonlConverter.Conveters.Tests
                 ConnectionString = Connectionstring,
                 SQLCommand = Sqlcommand
             };
-            tojson.Read();
+            tojson.Read(readcount);
 
             return tojson;
         }

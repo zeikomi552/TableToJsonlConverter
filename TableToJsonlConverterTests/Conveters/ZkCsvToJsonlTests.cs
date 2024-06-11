@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Reflection;
 using TableToJsonlConverter.Utils;
 using DocumentFormat.OpenXml.Math;
+using NuGet.Frameworks;
 
 namespace TableToJsonlConverter.Conveters.Tests
 {
@@ -50,10 +51,15 @@ namespace TableToJsonlConverter.Conveters.Tests
         {
             var test = ReadSub();
 
-            if (test.Rows.Count != 100) { Assert.Fail(); }
+            Assert.AreEqual(100, test.Rows.Count);
+
+
+            test = ReadSub(10);
+            Assert.AreEqual(10, test.Rows.Count);
+
         }
 
-        private ZkCsvToJsonl ReadSub()
+        private ZkCsvToJsonl ReadSub(int row_count = -1)
         {
             string dir = GetTestDir();
             string infile = Path.Combine(dir, BaseTestFile);
@@ -65,17 +71,17 @@ namespace TableToJsonlConverter.Conveters.Tests
                 HeaderF = true,
                 Delimiter = ",",
             };
-            test.Read();
+            test.Read(row_count);
 
             return test;
         }
-        private ZkCsvToJsonl ReadSub2()
+        private ZkCsvToJsonl ReadSub2(int row_count = -1)
         {
             string dir = GetTestDir();
             string infile = Path.Combine(dir, "test_base.tsv");
 
             ZkCsvToJsonl test = new(infile, Encoding.UTF8, true,"\t");
-            test.Read();
+            test.Read(row_count);
 
             return test;
         }

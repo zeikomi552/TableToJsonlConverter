@@ -141,7 +141,7 @@ namespace TableToJsonlConverter.Conveters
         /// 入力処理
         /// 失敗時はthrowを投げます
         /// </summary>
-        public void Read()
+        public void Read(int read_rowcount = -1)
         {
             try
             {
@@ -156,7 +156,7 @@ namespace TableToJsonlConverter.Conveters
                         var headers = ReadHeaders(ws);
 
                         // ヘッダーのセット処理
-                        SetRows(ws, headers);
+                        SetRows(ws, headers, read_rowcount);
                     }
                 }
             }
@@ -221,7 +221,7 @@ namespace TableToJsonlConverter.Conveters
         /// 行のセット処理
         /// </summary>
         /// <param name="ws">エクセルワークシート</param>
-        private void SetRows(IXLWorksheet ws, ZkHeaders headers)
+        private void SetRows(IXLWorksheet ws, ZkHeaders headers, int read_rowcount = 0)
         {
             int col = StartCol;
             int row = StartRow;
@@ -230,6 +230,7 @@ namespace TableToJsonlConverter.Conveters
             if (HeaderF)
                 row++;
 
+            int row_cnt = 1;
             while (true)
             {
                 //var row_tmp = new ZkRows();
@@ -252,6 +253,11 @@ namespace TableToJsonlConverter.Conveters
 
                 Rows.Add(row_tmp);
                 row++;
+
+
+                row_cnt++;
+                if (read_rowcount > 0 && row_cnt > read_rowcount)
+                    break;
             }
         }
         #endregion

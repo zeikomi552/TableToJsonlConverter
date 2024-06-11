@@ -14,7 +14,7 @@ namespace TableToJsonlConverter.Interface
         /// <summary>
         /// 対象データの読み込み処理
         /// </summary>
-        void Read();
+        void Read(int read_rowcount = -1);
 
         /// <summary>
         /// Json Linesファイルの書き出し処理

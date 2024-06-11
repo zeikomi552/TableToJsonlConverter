@@ -65,7 +65,7 @@ namespace TableToJsonlConverter.Conveters
         /// 入力処理
         /// 失敗時はthrowを投げます
         /// </summary>
-        public void Read()
+        public void Read(int read_rowcount = -1)
         {
             try
             {
@@ -79,6 +79,7 @@ namespace TableToJsonlConverter.Conveters
                     SqlCommand com = new SqlCommand(this.SQLCommand, con);
                     SqlDataReader sdr = com.ExecuteReader();
 
+                    int row_cnt = 1;
                     ZkHeaders? header = null;
                     ZkRows rows = new ZkRows();
                     while (sdr.Read() == true)
@@ -104,6 +105,10 @@ namespace TableToJsonlConverter.Conveters
                             row.Add(cell);
                         }
                         rows.Add(row);
+
+                        row_cnt++;
+                        if (read_rowcount > 0 && row_cnt > read_rowcount)
+                            break;
                     }
                     this.Rows = rows;
                     sdr.Close();
@@ -120,5 +125,6 @@ namespace TableToJsonlConverter.Conveters
             }
         }
         #endregion
+
     }
 }
