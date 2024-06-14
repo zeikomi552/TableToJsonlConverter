@@ -189,7 +189,7 @@ namespace TableToJsonlConverter.Conveters
                     }
                     else
                     {
-                        headers.Add(new ZkHeaderData() { Col = col, ColumnName = val.ToString()});
+                        headers.Add(new ZkHeaderData() { Col = col, ColumnName = val.ToString().Trim()});
                     }
                     col++;
                 }
@@ -206,7 +206,7 @@ namespace TableToJsonlConverter.Conveters
                     }
                     else
                     {
-                        headers.Add( new ZkHeaderData() { Col = col, ColumnName = "col" + col.ToString() });
+                        headers.Add( new ZkHeaderData() { Col = col, ColumnName = "col" + col.ToString().Trim() });
                     }
                     col++;
                 }
